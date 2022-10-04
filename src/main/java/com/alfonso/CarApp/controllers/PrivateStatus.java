@@ -1,4 +1,4 @@
-package com.alfonso.CarApp;
+package com.alfonso.CarApp.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
