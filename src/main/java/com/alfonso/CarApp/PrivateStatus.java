@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PrivateStatus {
     @GetMapping("/private/status")
-    public String index() {
+    public String getPrivateStatus() {
         return "OK";
     }
 }

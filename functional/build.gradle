@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'com.alfonso'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'io.cucumber:cucumber-java:7.5.0'
+    testImplementation 'io.cucumber:cucumber-junit:7.5.0'
+    testImplementation 'io.rest-assured:rest-assured:5.2.0'
+}
+
+test {
+    useJUnitPlatform()
+}
