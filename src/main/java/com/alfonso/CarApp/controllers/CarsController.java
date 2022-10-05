@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/cars")
 public class CarsController {
@@ -20,9 +23,9 @@ public class CarsController {
 
     @PostMapping("/admin")
         public ResponseEntity<?> insert(@RequestBody Car[] carsArray) {
-
         carsService.saveCars(carsArray);
-
-        return new ResponseEntity<>("\"description\": \"New record created in a database\"", HttpStatus.CREATED);}
+        Map<String, String> responseObject = new HashMap<>();
+        responseObject.put("description", "New record created in a database");
+        return new ResponseEntity<>(responseObject, HttpStatus.CREATED);}
 
 }
