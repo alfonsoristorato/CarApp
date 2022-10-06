@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Document
+@CompoundIndex( def = "{'brand' : 1, 'model' : 1}", unique = true)
 @NoArgsConstructor
 @Getter
 @Setter

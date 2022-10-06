@@ -1,5 +1,6 @@
 package com.alfonso.CarApp.exception;
 
+import com.mongodb.MongoWriteException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,15 +16,15 @@ import java.util.Set;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-//    @ExceptionHandler(AttributeMissingException.class)
-//    public ResponseEntity<Object> handleAttributeMissingException(
-//            AttributeMissingException ex, WebRequest request) {
-//
-//        Map<String, Object> body = new HashMap<>();
-//        body.put("description", "Incorrect car data provided");
-//
-//        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-//    }
+    @ExceptionHandler(MongoWriteException.class)
+    public ResponseEntity duplicateKeyException(
+            MongoWriteException ex) {
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("description", "dupl key");
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity handle(ConstraintViolationException constraintViolationException) {
@@ -34,6 +35,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
             violations.forEach(violation -> {
+                System.out.println(violation);
 
                 if(violation.getMessage().equals("must not be empty")){
 
