@@ -7,7 +7,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 @ExtendWith(MockitoExtension.class)
 public class CarsControllerTest {
     @Mock
@@ -15,12 +20,13 @@ public class CarsControllerTest {
     @InjectMocks
     private CarsController carsController;
     @Test
-    void whenCarsAdminCalled_return201() {
+    void whenInsertCalled_return201_saveCarsCalled() {
         Car[] carsArray = new Car[1];
         Car testCar1 = new Car("1","1",1,1,1,"1");
         carsArray[0] = testCar1;
         ResponseEntity<?> response = carsController.insert(carsArray);
-        Assertions.assertEquals(201, response.getStatusCodeValue());
+        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        verify(carsService, times(1)).saveCars(carsArray);
     }
 
 }
