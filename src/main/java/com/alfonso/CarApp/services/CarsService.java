@@ -12,25 +12,21 @@ import java.util.List;
 @Service
 public class CarsService {
     @Autowired
-    private  CarsRepository carsRepository;
+    private CarsRepository carsRepository;
     @Autowired
     private GlobalExceptionHandler globalExceptionHandler;
 
 
-
     public void saveCars(List<Car> carsList) {
 
-            carsList.forEach(car -> {
-                try {
-                    carsRepository.insert(car);
-                } catch(MongoWriteException e) {
+        carsList.forEach(car -> {
+            try {
+                carsRepository.insert(car);
+            } catch (MongoWriteException e) {
 
-                    globalExceptionHandler.duplicateKeyException(e);
-                }
-            });
-
-
-
+                globalExceptionHandler.duplicateKeyException(e);
+            }
+        });
 
 
     }
