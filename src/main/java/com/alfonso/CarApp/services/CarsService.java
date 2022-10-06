@@ -5,7 +5,7 @@ import com.alfonso.CarApp.repository.CarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CarsService {
@@ -15,8 +15,12 @@ public class CarsService {
 
 
 
-    public void saveCars(Car[] carsArray) {
-        Arrays.stream(carsArray).forEach(car -> carsRepository.insert(car));
-    }
 
+    public void saveCars(List<Car> carsList) {
+
+            carsList.forEach(car -> carsRepository.insert(car));
+
+
+
+    }
 }
