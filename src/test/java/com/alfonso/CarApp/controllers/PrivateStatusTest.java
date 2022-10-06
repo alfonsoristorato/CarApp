@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class PrivateStatusTest {
     @InjectMocks
-    PrivateStatus privateStatus;
+    PrivateController privateStatus;
 
     @Test
     void whenPrivateStatusCalled_returnOK() {
