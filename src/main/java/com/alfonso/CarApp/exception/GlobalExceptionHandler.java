@@ -21,13 +21,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             MongoWriteException ex) {
 
         Map<String, Object> body = new HashMap<>();
-        body.put("description", "dupl key");
+        body.put("description", "Car already exists");
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity handle(ConstraintViolationException constraintViolationException) {
+    public ResponseEntity genericException(ConstraintViolationException constraintViolationException) {
         Set<ConstraintViolation<?>> violations = constraintViolationException.getConstraintViolations();
         Map<String, Object> errorBody = new HashMap<>();
 

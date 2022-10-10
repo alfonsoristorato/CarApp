@@ -9,7 +9,6 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,30 +37,30 @@ public class HttpsRequestsSteps {
         Assert.assertEquals(code, response.getStatusCode());
     }
 
-//    @When("A request is made to {string} endpoint with a body of {int} car")
-//
-//    public void requestWithBody(String endpoint, Integer numberCars) {
-//        List<Object> list = new ArrayList();
-//        for (int i = 0; i < numberCars; i++) {
-//            String s = Integer.toString(i);
-//            Map<String, Object> bodyArray = new HashMap<>();
-//
-//            bodyArray.put("brand", s);
-//            bodyArray.put("model", s);
-//            bodyArray.put("year", 2022);
-//            bodyArray.put("price", 80000);
-//            bodyArray.put("mileage", 10000);
-//            bodyArray.put("colour", "lunar grey");
-//
-//            list.add(bodyArray);
-//        }
-//        Gson gson = new Gson();
-//        String bodyJson = gson.toJson(list);
-//        RequestSpecification request = RestAssured.given().body(bodyJson);
-//        System.out.println(bodyJson);
-//        request.header("Content-Type", "application/json");
-//
-//        response = request.post(endpoint);
-//    }
+    @When("A request is made to {string} endpoint with a body of {int} car")
+
+    public void requestWithBody(String endpoint, Integer numberCars) {
+        List<Object> list = new ArrayList();
+        for (int i = 0; i < numberCars; i++) {
+            String s = Integer.toString(i);
+            Map<String, Object> bodyArray = new HashMap<>();
+
+            bodyArray.put("brand", s);
+            bodyArray.put("model", s);
+            bodyArray.put("year", 2022);
+            bodyArray.put("price", 80000);
+            bodyArray.put("mileage", 10000);
+            bodyArray.put("colour", "lunar grey");
+
+            list.add(bodyArray);
+        }
+        Gson gson = new Gson();
+        String bodyJson = gson.toJson(list);
+        RequestSpecification request = RestAssured.given().body(bodyJson);
+        System.out.println(bodyJson);
+        request.header("Content-Type", "application/json");
+
+        response = request.post(endpoint);
+    }
 
 }

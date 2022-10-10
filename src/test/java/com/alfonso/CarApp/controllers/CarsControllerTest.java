@@ -1,5 +1,6 @@
 package com.alfonso.CarApp.controllers;
 
+import com.alfonso.CarApp.exception.GlobalExceptionHandler;
 import com.alfonso.CarApp.models.Car;
 import com.alfonso.CarApp.services.CarsService;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +24,50 @@ public class CarsControllerTest {
     @Mock
     private CarsService carsService;
     @InjectMocks
+    private GlobalExceptionHandler globalExceptionHandler;
+
+    @InjectMocks
     private CarsController carsController;
+
+    ResponseEntity<?> response;
     @Test
     void whenInsertCalled_return201_saveCarsCalled() {
         List<Car> carsList = new ArrayList<>();
         Car testCar1 = new Car("1","1",1,1,1,"1");
         carsList.add(testCar1);
-        ResponseEntity<?> response = carsController.insert(carsList);
+        response = carsController.insert(carsList);
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
         verify(carsService, times(1)).saveCars(carsList);
     }
+    @Test
+    void whenInsertCalledWithWrongData_return400_genericException() {
+        try{
+            List<Car> carsList = new ArrayList<>();
+            Car testCar1 = new Car(null,null,1,1,1,"1");
+            carsList.add(testCar1);
+            response = carsController.insert(carsList);
+            verify(carsService, times(1)).saveCars(carsList);
+        }
+        catch(ConstraintViolationException ex){
+            Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            verify(globalExceptionHandler, times(1)).genericException(ex);
+        }
+
+    }
+
+//    @Test
+//    void whenInsertCalledWithDuplicateCars_return409_duplicateKeyExceptionCalled() {
+//        List<Car> carsList = new ArrayList<>();
+//        Car testCar1 = new Car("1","1",1,1,1,"1");
+//
+//        carsList.add(testCar1);
+//
+//        ResponseEntity<?> response = carsController.insert(carsList);
+//        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+//        response = carsController.insert(carsList);
+//        Assertions.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+//        verify(carsService, times(1)).saveCars(carsList);
+//
+//    }
 
 }
