@@ -46,22 +46,18 @@ public class HttpsRequestsSteps {
         for (int i = 0; i < numberCars; i++) {
             String s = Integer.toString(i);
             Map<String, Object> bodyArray = new HashMap<>();
-
-            bodyArray.put("brand", s);
-            bodyArray.put("model", s);
+            bodyArray.put("brand", "test_brand_"+s);
+            bodyArray.put("model", "test_model_"+s);
             bodyArray.put("year", 2022);
             bodyArray.put("price", 80000);
             bodyArray.put("mileage", 10000);
             bodyArray.put("colour", "lunar grey");
-
             list.add(bodyArray);
         }
         Gson gson = new Gson();
         String bodyJson = gson.toJson(list);
         RequestSpecification request = given().body(bodyJson);
-        System.out.println(bodyJson);
         request.header("Content-Type", "application/json");
-
         response = request.post(endpoint);
     }
 
@@ -69,7 +65,7 @@ public class HttpsRequestsSteps {
     public void requestToWithBody(String endpoint, String body) {
         List<Object> bodyList = new ArrayList<>();
         Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("brand", null);
+        bodyMap.put("brand", body.split(", ")[0]);
         bodyMap.put("model", body.split(", ")[1]);
         bodyMap.put("year", Integer.parseInt(body.split(", ")[2]) );
         bodyMap.put("price", Integer.parseInt(body.split(", ")[3]));
