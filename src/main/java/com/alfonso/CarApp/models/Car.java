@@ -8,10 +8,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.NumberFormat;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 @Document
 @CompoundIndex( def = "{'brand' : 1, 'model' : 1}", unique = true)
@@ -23,25 +20,29 @@ public class Car {
     private String id;
 
     @NotEmpty
-
+//    @Pattern(regexp="\"(.*?)\"",message = "Incorrect car data provided")
     private String brand;
 
     @NotEmpty
-
+//    @Pattern(regexp="^[A-Za-z0-9]*$",message = "Incorrect car data provided")
     private String model;
 
 
     @Min(1000)
     @Max(9999)
     @Digits(fraction = 0, integer = 4)
+    @NumberFormat
     private int year;
 
 
     @NumberFormat
+//    @Pattern(regexp="^[0-9]*$",message = "Incorrect car data provided")
     private int price;
     @NumberFormat
+//    @Pattern(regexp="^[0-9]*$",message = "Incorrect car data provided")
     private int mileage;
     @NotEmpty
+//    @Pattern(regexp="^[A-Za-z]*$",message = "Incorrect car data provided")
     private String colour;
 
     public Car(String brand, String model, int year, int price, int mileage, String colour) {

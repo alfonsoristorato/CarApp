@@ -73,7 +73,6 @@ public class CarsControllerTest {
             Assertions.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
             verify(globalExceptionHandler, times(1)).duplicateKeyException(ex);
         }
-
     }
 
 }
