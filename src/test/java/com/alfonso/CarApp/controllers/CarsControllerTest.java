@@ -3,6 +3,7 @@ package com.alfonso.CarApp.controllers;
 import com.alfonso.CarApp.exception.GlobalExceptionHandler;
 import com.alfonso.CarApp.models.Car;
 import com.alfonso.CarApp.services.CarsService;
+import com.mongodb.MongoWriteException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,19 +56,24 @@ public class CarsControllerTest {
 
     }
 
-//    @Test
-//    void whenInsertCalledWithDuplicateCars_return409_duplicateKeyExceptionCalled() {
-//        List<Car> carsList = new ArrayList<>();
-//        Car testCar1 = new Car("1","1",1,1,1,"1");
-//
-//        carsList.add(testCar1);
-//
-//        ResponseEntity<?> response = carsController.insert(carsList);
-//        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
-//        response = carsController.insert(carsList);
-//        Assertions.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-//        verify(carsService, times(1)).saveCars(carsList);
-//
-//    }
+    @Test
+    void whenInsertCalledWithDuplicateCars_return409_duplicateKeyExceptionCalled() {
+        try{
+        List<Car> carsList = new ArrayList<>();
+        Car testCar1 = new Car("1","1",1,1,1,"1");
+
+        carsList.add(testCar1);
+
+        response = carsController.insert(carsList);
+        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        response = carsController.insert(carsList);
+        verify(carsService, times(2)).saveCars(carsList);
+        }
+        catch(MongoWriteException ex) {
+            Assertions.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+            verify(globalExceptionHandler, times(1)).duplicateKeyException(ex);
+        }
+
+    }
 
 }
