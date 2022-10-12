@@ -20,11 +20,9 @@ public class Car {
     private String id;
 
     @NotEmpty
-//    @Pattern(regexp="\"(.*?)\"",message = "Incorrect car data provided")
     private String brand;
 
     @NotEmpty
-//    @Pattern(regexp="^[A-Za-z0-9]*$",message = "Incorrect car data provided")
     private String model;
 
 
@@ -36,13 +34,10 @@ public class Car {
 
 
     @NumberFormat
-//    @Pattern(regexp="^[0-9]*$",message = "Incorrect car data provided")
     private int price;
     @NumberFormat
-//    @Pattern(regexp="^[0-9]*$",message = "Incorrect car data provided")
     private int mileage;
     @NotEmpty
-//    @Pattern(regexp="^[A-Za-z]*$",message = "Incorrect car data provided")
     private String colour;
 
     public Car(String brand, String model, int year, int price, int mileage, String colour) {
