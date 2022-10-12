@@ -31,11 +31,6 @@ public class CarsService {
     }
 
     public List<Car> getAllCars() {
-        List<Car> allCars = carsRepository.findAll();
-        for (Car car: allCars) {
-            System.out.println(car.toString());
-            car.toString();
-        }
-        return allCars;
+         return carsRepository.findAll();
     }
 }

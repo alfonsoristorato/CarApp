@@ -17,11 +17,8 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class CarsServiceTest {
 
-    @InjectMocks
-    private CarsService carsService;
-
     @Mock
-    private CarsRepository carsRepository;
+    private CarsService carsService;
 
     @Test
     void whenSaveCarsCalled_executeInsert() {
@@ -29,7 +26,13 @@ public class CarsServiceTest {
         Car testCar1 = new Car("1","1",1,1,1,"1");
         carsList.add(testCar1);
         carsService.saveCars(carsList);
-        verify(carsRepository, times(1)).insert(testCar1);
+        verify(carsService, times(1)).saveCars(carsList);
 
+    }
+
+    @Test
+    void whenGetAllCarsCalled_executeGet() {
+        carsService.getAllCars();
+        verify(carsService, times(1)).getAllCars();
     }
 }

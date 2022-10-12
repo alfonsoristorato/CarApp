@@ -57,6 +57,12 @@ public class CarsControllerTest {
     }
 
     @Test
+    void whenGetAllCarsIsCalled_return200_carList() {
+        response = carsController.getAllCars();
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
     void whenInsertCalledWithDuplicateCars_return409_duplicateKeyExceptionCalled() {
         try{
         List<Car> carsList = new ArrayList<>();

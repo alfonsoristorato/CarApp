@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,6 @@ public class CarsController {
     @GetMapping("/admin")
 
     public ResponseEntity<?> getAllCars() {
-
         return new ResponseEntity<>(carsService.getAllCars(), HttpStatus.OK);
     }
 }

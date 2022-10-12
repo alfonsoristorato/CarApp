@@ -20,7 +20,7 @@ import static io.restassured.RestAssured.given;
 public class HttpsRequestsSteps {
     private static Response response;
     private static String jsonString;
-    @When("A request is made to {string} endpoint")
+    @When("A get request is made to {string} endpoint")
     public void requestTo(String endpoint) {
         RequestSpecification request = given();
         request.header("Content-Type", "application/json");
@@ -39,7 +39,7 @@ public class HttpsRequestsSteps {
         Assert.assertEquals(code, response.getStatusCode());
     }
 
-    @When("A request is made to {string} endpoint with a body of {int} car")
+    @When("A post request is made to {string} endpoint with a body of {int} car")
 
     public void requestWithBody(String endpoint, Integer numberCars) {
         List<Object> list = new ArrayList();
