@@ -7,6 +7,7 @@ import com.mongodb.MongoWriteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +28,14 @@ public class CarsService {
                 globalExceptionHandler.duplicateKeyException(e);
             }
         });
+    }
 
-
+    public List<Car> getAllCars() {
+        List<Car> allCars = carsRepository.findAll();
+        for (Car car: allCars) {
+            System.out.println(car.toString());
+            car.toString();
+        }
+        return allCars;
     }
 }

@@ -19,6 +19,19 @@ public class Car {
     @Id
     private String id;
 
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id='" + id + '\'' +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", price=" + price +
+                ", mileage=" + mileage +
+                ", colour='" + colour + '\'' +
+                '}';
+    }
+
     @NotEmpty
     private String brand;
 
