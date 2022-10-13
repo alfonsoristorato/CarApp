@@ -20,7 +20,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/cars")
 @Validated
-
 public class CarsController {
     @Autowired
     private CarsService carsService;
@@ -28,7 +27,6 @@ public class CarsController {
 
 //    @PostMapping("/admin")
     @PostMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-
     public ResponseEntity<?> insert( @NotNull @NotEmpty @RequestBody List<@Valid Car> carsList) {
 
         carsService.saveCars(carsList);
@@ -38,9 +36,20 @@ public class CarsController {
 
     }
 
-    @GetMapping("/admin")
+    //@GetMapping("/admin")
+    //public ResponseEntity<?> getAllCars() {
+    //    return new ResponseEntity<>(carsService.getAllCars(), HttpStatus.OK);
+    //}
 
-    public ResponseEntity<?> getAllCars() {
-        return new ResponseEntity<>(carsService.getAllCars(), HttpStatus.OK);
+    @GetMapping(value = "/admin")
+    public ResponseEntity<?> getCarsWithQuery(@RequestParam(required = false, defaultValue = "") String brand,
+                                              @RequestParam(required = false, defaultValue = "") String model,
+                                              @RequestParam(required = false, defaultValue = "") String colour,
+                                              @RequestParam(required = false, defaultValue = "-1") String mileage,
+                                              @RequestParam(required = false, defaultValue = "-1") String price,
+                                              @RequestParam(required = false, defaultValue = "-1") String year){
+        System.out.println("THIS IS BRAND:" + String.valueOf(brand));
+        System.out.println("THIS IS YEAR:" + String.valueOf(year));
+        return new ResponseEntity<>(carsService.getCarsWithQuery(brand, model, colour, Integer.parseInt(mileage), Integer.parseInt(price), Integer.parseInt(year)), HttpStatus.OK);
     }
 }
