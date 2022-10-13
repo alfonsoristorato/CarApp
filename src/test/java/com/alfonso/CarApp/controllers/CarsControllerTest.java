@@ -58,7 +58,7 @@ public class CarsControllerTest {
 
     @Test
     void whenGetCarsByQueryCalled_return200() {
-        response = carsController.getCarsWithQuery("-1", "-1", "-1", "-1", "-1", "-1");
+        response = carsController.getCarsWithQuery("undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

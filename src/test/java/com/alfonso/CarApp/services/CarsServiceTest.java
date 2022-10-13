@@ -31,8 +31,22 @@ public class CarsServiceTest {
     }
 
     @Test
-    void whenGetAllCarsCalled_executeGet() {
-        carsService.getCarsWithQuery("-1", "-1", "-1", -1, -1, -1);
-        verify(carsService, times(1)).getCarsWithQuery("-1", "-1", "-1", -1, -1, -1);
+    void whenGetCarsWithQuery_executeGet() {
+        carsService.getCarsWithQuery("undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
+        verify(carsService, times(1)).getCarsWithQuery("undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
     }
+
+    @Test
+    void whenGetCarsWithQueryWithIncorrectParameterAlphabetical_executeGet() {
+        carsService.verifyFieldsFormat("Mazda ", "undefined", "undefined", "undefined", "undefined", "undefined");
+        verify(carsService, times(1)).verifyFieldsFormat("Mazda ", "undefined", "undefined", "undefined", "undefined", "undefined");
+    }
+
+    @Test
+    void whenGetCarsWithQueryWithIncorrectParameterNumeric_executeGet() {
+        carsService.verifyFieldsFormat("undefined", "undefined", "undefined", "undefined", "undefined", "aaa");
+        verify(carsService, times(1)).verifyFieldsFormat("undefined", "undefined", "undefined", "undefined", "undefined", "aaa");
+    }
+
+
 }

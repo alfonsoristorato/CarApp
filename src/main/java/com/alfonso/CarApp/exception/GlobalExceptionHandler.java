@@ -48,4 +48,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         }
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity incorrectQueryParameterException(IllegalArgumentException illegalArgumentException) {
+
+            Map<String, Object> body = new HashMap<>();
+            body.put("description", "Incorrect query parameter provided");
+
+            return new ResponseEntity<>(body, HttpStatus.valueOf(400));
+    }
 }

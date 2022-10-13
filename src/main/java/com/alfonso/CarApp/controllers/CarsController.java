@@ -37,12 +37,12 @@ public class CarsController {
     }
 
     @GetMapping(value = "/admin")
-    public ResponseEntity<?> getCarsWithQuery(@RequestParam(required = false, defaultValue = "-1") String brand,
-                                              @RequestParam(required = false, defaultValue = "-1") String model,
-                                              @RequestParam(required = false, defaultValue = "-1") String colour,
-                                              @RequestParam(required = false, defaultValue = "-1") String mileage,
-                                              @RequestParam(required = false, defaultValue = "-1") String price,
-                                              @RequestParam(required = false, defaultValue = "-1") String year){
-        return new ResponseEntity<>(carsService.getCarsWithQuery(brand, model, colour, Integer.parseInt(mileage), Integer.parseInt(price), Integer.parseInt(year)), HttpStatus.OK);
+    public ResponseEntity<?> getCarsWithQuery(@RequestParam(required = false, defaultValue = "undefined") String brand,
+                                              @RequestParam(required = false, defaultValue = "undefined") String model,
+                                              @RequestParam(required = false, defaultValue = "undefined") String colour,
+                                              @RequestParam(required = false, defaultValue = "undefined") String mileage,
+                                              @RequestParam(required = false, defaultValue = "undefined") String price,
+                                              @RequestParam(required = false, defaultValue = "undefined") String year){
+        return new ResponseEntity<>(carsService.getCarsWithQuery(brand, model, colour, mileage, price, year), HttpStatus.OK);
     }
 }

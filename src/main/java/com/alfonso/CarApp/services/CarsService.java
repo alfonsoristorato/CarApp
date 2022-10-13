@@ -43,36 +43,58 @@ public class CarsService {
     public List<Car> getCarsWithQuery(String brand,
                                       String model,
                                       String colour,
-                                      int mileage,
-                                      int price,
-                                      int year) {
+                                      String mileage,
+                                      String price,
+                                      String year) {
+        verifyFieldsFormat(brand,
+                model,
+                colour,
+                mileage,
+                price,
+                year);
         Query dynamicQuery = new Query();
-        if (!brand.equals("-1")) {
+        if (!brand.equals("undefined")) {
             Criteria nameCriteria = Criteria.where("brand").is(brand);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (!model.equals("-1")) {
+        if (!model.equals("undefined")) {
             Criteria nameCriteria = Criteria.where("model").is(model);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (!colour.equals("-1")) {
+        if (!colour.equals("undefined")) {
             Criteria nameCriteria = Criteria.where("colour").is(colour);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (mileage != -1) {
+        if (!mileage.equals("undefined")) {
             Criteria nameCriteria = Criteria.where("mileage").is(mileage);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (price != -1) {
+        if (!price.equals("undefined")) {
             Criteria nameCriteria = Criteria.where("price").is(price);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (year != -1) {
+        if (!year.equals("undefined")) {
             Criteria nameCriteria = Criteria.where("year").is(year);
             dynamicQuery.addCriteria(nameCriteria);
         }
         List<Car> result = mongoTemplate.find(dynamicQuery.with(Sort.by(Sort.Direction.ASC,"brand")), Car.class, "car");
         return result;
+    }
+
+    public void verifyFieldsFormat( String brand,
+                                    String model,
+                                    String colour,
+                                    String mileage,
+                                    String price,
+                                    String year){
+        System.out.println(brand + " " + model + " " + colour );
+        if ( !(brand+model+colour).matches("[a-zA-Z0-9.?]*") ||
+                (!year.matches("[0-9]{4}") && !year.equals("undefined")) ||
+                (!mileage.matches("[0-9]*") && !mileage.equals("undefined")) ||
+                (!price.matches("[0-9]*") && !price.equals("undefined"))){
+            throw new IllegalArgumentException();
+        }
+
     }
 
 
