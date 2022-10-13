@@ -79,4 +79,15 @@ public class HttpsRequestsSteps {
         response = request.post(endpoint);
     }
 
+    @When("An put request is made to {string} endpoint with a car {string}")
+    public void  putRequest(String id, String body) {
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("brand", body.split(", ")[0]);
+        bodyMap.put("model", body.split(", ")[1]);
+        bodyMap.put("year", Integer.parseInt(body.split(", ")[2]) );
+        bodyMap.put("price", Integer.parseInt(body.split(", ")[3]));
+        bodyMap.put("mileage", Integer.parseInt(body.split(", ")[4]));
+        bodyMap.put("colour", body.split(", ")[5]);
+    }
+
 }

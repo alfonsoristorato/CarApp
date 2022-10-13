@@ -21,3 +21,8 @@ Feature: Func Tests for cars/admin endpoint
   Scenario: http get request to endpoint with query with incorrect parameters
     When A get request is made to "cars/admin?brand=Mazda &year=aaaa" endpoint
     And A status code of 400 is received
+
+  Scenario: http put request to endpoint with correct fields updates car item
+    When A post request is made to "cars/admin" endpoint with a car being "Tyota, X5, 2022, 80000, 10000, black"
+    Then I update the id of the car
+    When An put request is made to "cars/admin" endpoint with a car "Mazda, X5, 2022, 80000, 10000, black"

@@ -32,21 +32,31 @@ public class CarsServiceTest {
 
     @Test
     void whenGetCarsWithQuery_executeGet() {
-        carsService.getCarsWithQuery("undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
-        verify(carsService, times(1)).getCarsWithQuery("undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
+        carsService.getCarsWithQuery("", "", "", "", "", "");
+        verify(carsService, times(1)).getCarsWithQuery("", "", "", "", "", "");
     }
 
     @Test
     void whenGetCarsWithQueryWithIncorrectParameterAlphabetical_executeGet() {
-        carsService.verifyFieldsFormat("Mazda ", "undefined", "undefined", "undefined", "undefined", "undefined");
-        verify(carsService, times(1)).verifyFieldsFormat("Mazda ", "undefined", "undefined", "undefined", "undefined", "undefined");
+        carsService.verifyFieldsFormat("Mazda ", "", "", "", "", "");
+        verify(carsService, times(1)).verifyFieldsFormat("Mazda ", "", "", "", "", "");
     }
 
     @Test
     void whenGetCarsWithQueryWithIncorrectParameterNumeric_executeGet() {
-        carsService.verifyFieldsFormat("undefined", "undefined", "undefined", "undefined", "undefined", "aaa");
-        verify(carsService, times(1)).verifyFieldsFormat("undefined", "undefined", "undefined", "undefined", "undefined", "aaa");
+        carsService.verifyFieldsFormat("", "", "", "", "", "aaa");
+        verify(carsService, times(1)).verifyFieldsFormat("", "", "", "", "", "aaa");
     }
 
-
+    @Test
+    void whenUpdateCarCalled_executePut() {
+        List<Car> carsList = new ArrayList<>();
+        Car testCar1 = new Car("1","1",1111,1,1,"1");
+        testCar1.setId("testid");
+        carsList.add(testCar1);
+        carsService.saveCars(carsList);
+        carsService.updateCar("testid", "2", "1", "1", "1", "1", "1111");
+        carsService.verifyFieldsFormat("2", "1", "1", "1", "1", "1111");
+        verify(carsService, times(1)).verifyFieldsFormat("2", "1", "1", "1", "1", "1111");
+    }
 }
