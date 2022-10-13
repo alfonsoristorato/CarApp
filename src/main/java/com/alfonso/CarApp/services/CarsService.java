@@ -55,27 +55,27 @@ public class CarsService {
                 price,
                 year);
         Query dynamicQuery = new Query();
-        if (!brand.equals("undefined")) {
+        if (!brand.equals("")) {
             Criteria nameCriteria = Criteria.where("brand").is(brand);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (!model.equals("undefined")) {
+        if (!model.equals("")) {
             Criteria nameCriteria = Criteria.where("model").is(model);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (!colour.equals("undefined")) {
+        if (!colour.equals("")) {
             Criteria nameCriteria = Criteria.where("colour").is(colour);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (!mileage.equals("undefined")) {
+        if (!mileage.equals("")) {
             Criteria nameCriteria = Criteria.where("mileage").is(mileage);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (!price.equals("undefined")) {
+        if (!price.equals("")) {
             Criteria nameCriteria = Criteria.where("price").is(price);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        if (!year.equals("undefined")) {
+        if (!year.equals("")) {
             Criteria nameCriteria = Criteria.where("year").is(year);
             dynamicQuery.addCriteria(nameCriteria);
         }
@@ -83,17 +83,21 @@ public class CarsService {
         return result;
     }
 
-    public void verifyFieldsFormat( String brand,
-                                    String model,
-                                    String colour,
-                                    String mileage,
-                                    String price,
-                                    String year){
+    public CarsRepository getCarsRepository() {
+        return carsRepository;
+    }
+
+    public void verifyFieldsFormat(String brand,
+                                   String model,
+                                   String colour,
+                                   String mileage,
+                                   String price,
+                                   String year){
         System.out.println(brand + " " + model + " " + colour );
-        if ( !(brand+model+colour).matches("[a-zA-Z0-9.?]*") ||
-                (!year.matches("[0-9]{4}") && !year.equals("undefined")) ||
-                (!mileage.matches("[0-9]*") && !mileage.equals("undefined")) ||
-                (!price.matches("[0-9]*") && !price.equals("undefined"))){
+        if ( (!(brand+model+colour).matches("[a-zA-Z0-9.?]*") && !year.equals("")) ||
+                (!year.matches("[0-9]{4}") && !year.equals("")) ||
+                (!mileage.matches("[0-9]*") && !mileage.equals("")) ||
+                (!price.matches("[0-9]*") && !price.equals(""))){
             throw new IllegalArgumentException();
         }
 

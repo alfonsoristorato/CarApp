@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage;
 
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class CarsControllerTest {
     private CarsService carsService;
     @InjectMocks
     private GlobalExceptionHandler globalExceptionHandler;
+
+    public CarsService getCarsService() {
+        return carsService;
+    }
 
     @InjectMocks
     private CarsController carsController;
@@ -58,7 +63,7 @@ public class CarsControllerTest {
 
     @Test
     void whenGetCarsByQueryCalled_return200() {
-        response = carsController.getCarsWithQuery("undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
+        response = carsController.getCarsWithQuery("", "", "", "", "", "");
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -84,15 +89,18 @@ public class CarsControllerTest {
     @Test
     void whenUpdateCarCalled_return200() {
         List<Car> carsList = new ArrayList<>();
-        Car testCar1 = new Car("1","1",1,1,1,"1");
+        Car testCar1 = new Car("1","1",1111,1,1,"1");
+        testCar1.setId("testid");
         carsList.add(testCar1);
-        carsController.insert(carsList);
-
-        ResponseEntity retrieved = carsController.getCarsWithQuery("1", "1", "1", "1", "1", "1");
-
-        Car testCar2 = new Car("2","1",1,1,1,"1");
-//        response = carsController.update(testCar2);
-
+        testCar1.setBrand("2");
+        response = carsController.update("testid",testCar1);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(carsService, times(1)).updateCar("testid",testCar1.getBrand(),
+                testCar1.getModel(),
+                testCar1.getColour(),
+                String.valueOf(testCar1.getMileage()),
+                String.valueOf(testCar1.getPrice()),
+                String.valueOf(testCar1.getYear()));
     }
 
 }
