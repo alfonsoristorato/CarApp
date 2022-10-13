@@ -5,6 +5,7 @@ import com.alfonso.CarApp.models.Car;
 import com.alfonso.CarApp.repository.CarsRepository;
 import com.mongodb.MongoWriteException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -70,9 +71,7 @@ public class CarsService {
             Criteria nameCriteria = Criteria.where("year").is(year);
             dynamicQuery.addCriteria(nameCriteria);
         }
-        System.out.println(dynamicQuery);
-//        return carsRepository.getCarsByQuery(brand, model, colour, mileage, price, year);
-        List<Car> result = mongoTemplate.find(dynamicQuery, Car.class, "car");
+        List<Car> result = mongoTemplate.find(dynamicQuery.with(Sort.by(Sort.Direction.ASC,"brand")), Car.class, "car");
         return result;
     }
 
