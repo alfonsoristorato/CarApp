@@ -45,4 +45,13 @@ public class CarsController {
                                               @RequestParam(required = false, defaultValue = "undefined") String year){
         return new ResponseEntity<>(carsService.getCarsWithQuery(brand, model, colour, mileage, price, year), HttpStatus.OK);
     }
+
+    @PutMapping(value = "/admin")
+    public ResponseEntity<?> update(@RequestParam(required = true) String id, @RequestBody @Valid Car car ) {
+
+        carsService.updateCar(id, car.getBrand(), car.getModel(), car.getColour(), String.valueOf(car.getMileage()), String.valueOf(car.getPrice()), String.valueOf(car.getYear()));
+        Map<String, String> responseObject = new HashMap<>();
+        responseObject.put("description", "Car updated");
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
 }

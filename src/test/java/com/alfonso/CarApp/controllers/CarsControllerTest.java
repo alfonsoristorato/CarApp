@@ -81,4 +81,18 @@ public class CarsControllerTest {
         }
     }
 
+    @Test
+    void whenUpdateCarCalled_return200() {
+        List<Car> carsList = new ArrayList<>();
+        Car testCar1 = new Car("1","1",1,1,1,"1");
+        carsList.add(testCar1);
+        carsController.insert(carsList);
+
+        ResponseEntity retrieved = carsController.getCarsWithQuery("1", "1", "1", "1", "1", "1");
+
+        Car testCar2 = new Car("2","1",1,1,1,"1");
+//        response = carsController.update(testCar2);
+
+    }
+
 }

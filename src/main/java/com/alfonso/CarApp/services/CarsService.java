@@ -4,11 +4,13 @@ import com.alfonso.CarApp.exception.GlobalExceptionHandler;
 import com.alfonso.CarApp.models.Car;
 import com.alfonso.CarApp.repository.CarsRepository;
 import com.mongodb.MongoWriteException;
+import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -95,6 +97,30 @@ public class CarsService {
             throw new IllegalArgumentException();
         }
 
+    }
+
+    public void updateCar(String id,
+                          String brand,
+                          String model,
+                          String colour,
+                          String mileage,
+                          String price,
+                          String year) {
+        Query select = Query.query(Criteria.where("id").is(id));
+        verifyFieldsFormat(brand,
+                model,
+                colour,
+                mileage,
+                price,
+                year);
+        Update update = new Update();
+        if (!brand.equals("")) update.set("brand", brand);
+        if (!model.equals("")) update.set("model", model);
+        if (!colour.equals("")) update.set("colour", colour);
+        if (!mileage.equals("")) update.set("mileage", mileage);
+        if (!price.equals("")) update.set("price", price);
+        if (!year.equals("")) update.set("year", year);
+        mongoTemplate.findAndModify(select, update, Car.class);
     }
 
 
