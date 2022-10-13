@@ -12,3 +12,8 @@ Feature: Func Tests for cars/admin endpoint
   Scenario: get request to endpoint gets all cars
       When A get request is made to "cars/admin" endpoint
       And A status code of 200 is received
+
+  Scenario: get request to endpoint with query gets specific car(s)
+      When A post request is made to "cars/admin" endpoint with a car being "Mazda, X5, 2022, 80000, 10000, black"
+      Then A get request is made to "cars/admin?brand=Mazda&model=X5" endpoint
+      And A status code of 200 is received

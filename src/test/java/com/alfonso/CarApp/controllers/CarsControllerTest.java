@@ -57,8 +57,8 @@ public class CarsControllerTest {
     }
 
     @Test
-    void whenGetAllCarsIsCalled_return200_carList() {
-        response = carsController.getAllCars();
+    void whenGetCarsByQueryCalled_return200() {
+        response = carsController.getCarsWithQuery("-1", "-1", "-1", "-1", "-1", "-1");
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

@@ -25,8 +25,8 @@ public class HttpsRequestsSteps {
         RequestSpecification request = given();
         request.header("Content-Type", "application/json");
         response = request.get(endpoint);
-
     }
+
     @Then("A body of {string} is received")
     public void bodyReceived(String body) {
 

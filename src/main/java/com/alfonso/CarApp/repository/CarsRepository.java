@@ -13,13 +13,4 @@ import java.util.List;
 @Repository
 public interface CarsRepository extends MongoRepository<Car, String> {
 
-    List<Car> getCarsByQuery(String brand,
-                             String model,
-                             String colour,
-                             int mileage,
-                             int price,
-                             int year);
-
-
-
 }

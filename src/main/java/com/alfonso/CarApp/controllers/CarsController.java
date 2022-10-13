@@ -42,9 +42,9 @@ public class CarsController {
     //}
 
     @GetMapping(value = "/admin")
-    public ResponseEntity<?> getCarsWithQuery(@RequestParam(required = false, defaultValue = "") String brand,
-                                              @RequestParam(required = false, defaultValue = "") String model,
-                                              @RequestParam(required = false, defaultValue = "") String colour,
+    public ResponseEntity<?> getCarsWithQuery(@RequestParam(required = false, defaultValue = "-1") String brand,
+                                              @RequestParam(required = false, defaultValue = "-1") String model,
+                                              @RequestParam(required = false, defaultValue = "-1") String colour,
                                               @RequestParam(required = false, defaultValue = "-1") String mileage,
                                               @RequestParam(required = false, defaultValue = "-1") String price,
                                               @RequestParam(required = false, defaultValue = "-1") String year){

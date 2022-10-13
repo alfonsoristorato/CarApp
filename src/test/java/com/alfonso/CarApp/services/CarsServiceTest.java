@@ -32,7 +32,7 @@ public class CarsServiceTest {
 
     @Test
     void whenGetAllCarsCalled_executeGet() {
-        carsService.getAllCars();
-        verify(carsService, times(1)).getAllCars();
+        carsService.getCarsWithQuery("-1", "-1", "-1", -1, -1, -1);
+        verify(carsService, times(1)).getCarsWithQuery("-1", "-1", "-1", -1, -1, -1);
     }
 }
