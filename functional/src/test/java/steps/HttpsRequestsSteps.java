@@ -5,7 +5,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.After;
@@ -35,6 +34,14 @@ public class HttpsRequestsSteps {
         RequestSpecification request = given();
         request.header("Content-Type", "application/json");
         response = request.delete("cars/admin/delete-test-data");
+    }
+
+    @When("A delete request is made to {string} endpoint")
+    public void deleteRequestTo(String endpoint){
+        RequestSpecification request = given();
+        request.header("Content-Type", "application/json");
+        response = request.delete(endpoint);
+
     }
 
     @When("A get request is made to {string} endpoint")

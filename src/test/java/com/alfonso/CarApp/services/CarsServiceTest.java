@@ -9,17 +9,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.SortByCountOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CarsServiceTest {
@@ -86,7 +85,17 @@ public class CarsServiceTest {
 
     @Test
     void whenDeleteCarCalled_executeDelete() {
+        List<Car> carsList = new ArrayList<>();
+        Car testCar1 = new Car("1","1",1,1,1,"1");
+        carsList.add(testCar1);
+
+        when(carsRepository.findById("1")).thenReturn(Optional.ofNullable(carsList.get(0)));
         carsService.deleteCar("1");
         verify(carsRepository, times(1)).deleteById("1");
+    }
+
+    @Test
+    void whenDeleteCarCalledWithWrongId_throwIllegArgException() {
+        assertThatThrownBy(() -> carsService.deleteCar("1111")).isInstanceOf(IllegalArgumentException.class);
     }
 }

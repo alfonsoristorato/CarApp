@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +55,11 @@ public class CarsController {
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/admin/{carId}")
-    public ResponseEntity<?> delete(@PathVariable String carId) {
+    @DeleteMapping(value = {"/admin/{carId}", "admin"})
+    public ResponseEntity<?> delete(@PathVariable(required = false) String carId) {
+        if (carId == null){
+            throw new IllegalArgumentException("No id provided");
+        }
         carsService.deleteCar(carId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

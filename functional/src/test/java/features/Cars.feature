@@ -40,3 +40,15 @@ Feature: Func Tests for cars/admin endpoint
     Then A get request to find the car "TestBrand, TestModel, 2022, 80000, 10000, black" is made and a delete request is made to delete it
     And A status code of 204 is received
 
+  Scenario: A http delete request to endpoint sends back message if no id, or wrong id
+    When A delete request is made to "cars/admin" endpoint
+    Then A body of "{\"description\":\"Incorrect car data provided\"}" is received
+    And A status code of 400 is received
+    When A delete request is made to "cars/admin/999999" endpoint
+    Then A body of "{\"description\":\"Incorrect car data provided\"}" is received
+    And A status code of 400 is received
+
+
+
+
+

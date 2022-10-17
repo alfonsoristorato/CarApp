@@ -12,12 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
 
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -108,5 +108,10 @@ public class CarsControllerTest {
         response = carsController.delete("1");
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         verify(carsService, times(1)).deleteCar("1");
+    }
+
+    @Test
+    void whenDeleteCalledWithNullId_returnIllegalArgException() {
+        assertThatThrownBy(() -> carsController.delete(null)).isInstanceOf(IllegalArgumentException.class);
     }
 }

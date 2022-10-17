@@ -3,8 +3,6 @@ package com.alfonso.CarApp.services;
 import com.alfonso.CarApp.exception.GlobalExceptionHandler;
 import com.alfonso.CarApp.models.Car;
 import com.alfonso.CarApp.repository.CarsRepository;
-import com.mongodb.MongoWriteException;
-import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,9 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -121,10 +117,15 @@ public class CarsService {
         mongoTemplate.findAndModify(select, update, Car.class);
     }
 
-    public void deleteCar(
-         String id
-    ) {
-        carsRepository.deleteById(id);
+
+    public void deleteCar(String id) {
+
+        if (carsRepository.findById(id).isEmpty()) {
+            throw new IllegalArgumentException("No car matches");
+        } else{
+            carsRepository.deleteById(id);
+        }
+
     }
 
     public void deleteByTestModel() {
