@@ -29,12 +29,7 @@ public class CarsService {
 
     public void saveCars(List<Car> carsList) {
         carsList.forEach(car -> {
-            try {
                 carsRepository.insert(car);
-            } catch (MongoWriteException e) {
-
-                globalExceptionHandler.duplicateKeyException(e);
-            }
         });
     }
 
@@ -103,14 +98,15 @@ public class CarsService {
 
     }
 
-    public void updateCar(String id,
+    public void updateCar(
                           String brand,
                           String model,
                           String colour,
                           String mileage,
                           String price,
                           String year) {
-        Query select = Query.query(Criteria.where("id").is(id));
+        Query select = Query.query(Criteria.where("brand").is(brand));
+        select.addCriteria(Criteria.where("model").is(model));
         verifyFieldsFormat(brand,
                 model,
                 colour,

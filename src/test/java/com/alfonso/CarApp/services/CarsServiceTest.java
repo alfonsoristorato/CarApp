@@ -52,10 +52,9 @@ public class CarsServiceTest {
     void whenUpdateCarCalled_executePut() {
         List<Car> carsList = new ArrayList<>();
         Car testCar1 = new Car("1","1",1111,1,1,"1");
-        testCar1.setId("testid");
         carsList.add(testCar1);
         carsService.saveCars(carsList);
-        carsService.updateCar("testid", "2", "1", "1", "1", "1", "1111");
+        carsService.updateCar( "2", "1", "1", "1", "1", "1111");
         carsService.verifyFieldsFormat("2", "1", "1", "1", "1", "1111");
         verify(carsService, times(1)).verifyFieldsFormat("2", "1", "1", "1", "1", "1111");
     }

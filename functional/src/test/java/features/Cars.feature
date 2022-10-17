@@ -5,7 +5,7 @@ Feature: Func Tests for cars/admin endpoint
     And A status code of 201 is received
 
   Scenario: http post request to endpoint with incorrect data
-    When A post request is made to "cars/admin" endpoint with a car being ", X5, 2022, 80000, 10000, black"
+    When A "post" request is made to "cars/admin" endpoint with a car being ", X5, 2022, 80000, 10000, black"
     Then A body of "{\"description\":\"Incorrect car data provided\"}" is received
     And A status code of 400 is received
 
@@ -14,7 +14,7 @@ Feature: Func Tests for cars/admin endpoint
     And A status code of 200 is received
 
   Scenario: http get request to endpoint with query gets specific car(s)
-    When A post request is made to "cars/admin" endpoint with a car being "Mazda, X5, 2022, 80000, 10000, black"
+    When A "post" request is made to "cars/admin" endpoint with a car being "Mazda, X5, 2022, 80000, 10000, black"
     Then A get request is made to "cars/admin?brand=Mazda&model=X5" endpoint
     And A status code of 200 is received
 
@@ -23,6 +23,11 @@ Feature: Func Tests for cars/admin endpoint
     And A status code of 400 is received
 
   Scenario: http put request to endpoint with correct fields updates car item
-    When A post request is made to "cars/admin" endpoint with a car being "Tyota, X5, 2022, 80000, 10000, black"
-    Then I update the id of the car
-    When An put request is made to "cars/admin" endpoint with a car "Mazda, X5, 2022, 80000, 10000, black"
+    When A "post" request is made to "cars/admin" endpoint with a car being "Toyota, X5, 2022, 80000, 10000, black"
+    Then A body of "{\"description\":\"New record created in a database\"}" is received
+    When A "put" request is made to "cars/admin" endpoint with a car being "Toyota, X5, 2020, 80000, 10000, black"
+    Then A body of "{\"description\":\"Cars updated\"}" is received
+    And A status code of 200 is received
+
+
+

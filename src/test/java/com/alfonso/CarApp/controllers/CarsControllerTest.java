@@ -93,9 +93,9 @@ public class CarsControllerTest {
         testCar1.setId("testid");
         carsList.add(testCar1);
         testCar1.setBrand("2");
-        response = carsController.update("testid",testCar1);
+        response = carsController.update(carsList);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(carsService, times(1)).updateCar("testid",testCar1.getBrand(),
+        verify(carsService, times(1)).updateCar(testCar1.getBrand(),
                 testCar1.getModel(),
                 testCar1.getColour(),
                 String.valueOf(testCar1.getMileage()),

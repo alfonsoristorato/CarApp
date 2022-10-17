@@ -11,7 +11,7 @@ import org.springframework.format.annotation.NumberFormat;
 import javax.validation.constraints.*;
 
 @Document
-//@CompoundIndex( def = "{'brand' : 1, 'model' : 1}", unique = true)
+@CompoundIndex( def = "{'brand' : 1, 'model' : 1}", unique = true)
 //@NoArgsConstructor
 //@Getter
 //@Setter
