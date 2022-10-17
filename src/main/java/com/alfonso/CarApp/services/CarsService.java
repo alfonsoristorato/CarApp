@@ -89,7 +89,7 @@ public class CarsService {
                                    String price,
                                    String year){
         System.out.println(brand + " " + model + " " + colour );
-        if ( (!(brand+model+colour).matches("[a-zA-Z0-9.?]*") && !year.equals("")) ||
+        if ( (!(brand+model+colour).matches("^[a-zA-Z0-9_\\-.]*$") || (brand+model+colour).contains(" ")) ||
                 (!year.matches("[0-9]{4}") && !year.equals("")) ||
                 (!mileage.matches("[0-9]*") && !mileage.equals("")) ||
                 (!price.matches("[0-9]*") && !price.equals(""))){
@@ -105,8 +105,8 @@ public class CarsService {
                           String mileage,
                           String price,
                           String year) {
-        Query select = Query.query(Criteria.where("brand").is(brand));
-        select.addCriteria(Criteria.where("model").is(model));
+        Query select = new Query();
+        select.addCriteria(new Criteria().andOperator(Criteria.where("brand").is(brand), Criteria.where("model").is(model)));
         verifyFieldsFormat(brand,
                 model,
                 colour,
@@ -114,8 +114,6 @@ public class CarsService {
                 price,
                 year);
         Update update = new Update();
-        if (!brand.equals("")) update.set("brand", brand);
-        if (!model.equals("")) update.set("model", model);
         if (!colour.equals("")) update.set("colour", colour);
         if (!mileage.equals("")) update.set("mileage", mileage);
         if (!price.equals("")) update.set("price", price);
@@ -123,6 +121,14 @@ public class CarsService {
         mongoTemplate.findAndModify(select, update, Car.class);
     }
 
+    public void deleteCar(
+         String id
+    ) {
+        carsRepository.deleteById(id);
+    }
 
-
+    public void deleteByTestModel() {
+        List<Car> testCars = carsRepository.findByModel("TestModel");
+        carsRepository.deleteAll(testCars);
+    }
 }

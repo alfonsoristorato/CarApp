@@ -2,11 +2,13 @@ package steps;
 
 import com.google.gson.Gson;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.After;
 import org.junit.Assert;
 
 import java.util.ArrayList;
@@ -20,6 +22,21 @@ import static io.restassured.RestAssured.given;
 public class HttpsRequestsSteps {
     private static Response response;
     private static String jsonString;
+
+    @Given("There are no test cars")
+    public void clearTestCars() {
+        RequestSpecification request = given();
+        request.header("Content-Type", "application/json");
+        response = request.delete("cars/admin/delete-test-data");
+    }
+
+    @After
+    public void clearTestCarsAfter() {
+        RequestSpecification request = given();
+        request.header("Content-Type", "application/json");
+        response = request.delete("cars/admin/delete-test-data");
+    }
+
     @When("A get request is made to {string} endpoint")
     public void requestTo(String endpoint) {
         RequestSpecification request = given();
@@ -84,7 +101,16 @@ public class HttpsRequestsSteps {
 
             response = request.put(endpoint);
         }
+    }
 
+    @Then("A get request to find the car {string} is made and a delete request is made to delete it")
+    public void requestToGetAndDelete(String body) {
+        String endpoint = "cars/admin?brand=" + body.split(", ")[0] + "&model=" + body.split(", ")[1];
+        String id = given().when().get(endpoint).then().extract().jsonPath().get("find {it.brand == 'TestBrand'}.id");
+        System.out.println(id);
+        RequestSpecification request = given();
+        request.header("Content-Type", "application/json");
+        response = request.delete("cars/admin/" + id);
     }
 
 }

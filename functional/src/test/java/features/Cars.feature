@@ -1,4 +1,7 @@
 Feature: Func Tests for cars/admin endpoint
+  Background:
+    Given There are no test cars
+
   Scenario: http post request to endpoint
     When A post request is made to "cars/admin" endpoint with a body of 1 car
     Then A body of "{\"description\":\"New record created in a database\"}" is received
@@ -14,8 +17,8 @@ Feature: Func Tests for cars/admin endpoint
     And A status code of 200 is received
 
   Scenario: http get request to endpoint with query gets specific car(s)
-    When A "post" request is made to "cars/admin" endpoint with a car being "Mazda, X5, 2022, 80000, 10000, black"
-    Then A get request is made to "cars/admin?brand=Mazda&model=X5" endpoint
+    When A "post" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2022, 80000, 10000, black"
+    Then A get request is made to "cars/admin?brand=TestBrand1&model=TestModel1" endpoint
     And A status code of 200 is received
 
   Scenario: http get request to endpoint with query with incorrect parameters
@@ -23,11 +26,17 @@ Feature: Func Tests for cars/admin endpoint
     And A status code of 400 is received
 
   Scenario: http put request to endpoint with correct fields updates car item
-    When A "post" request is made to "cars/admin" endpoint with a car being "Toyota, X5, 2022, 80000, 10000, black"
+    When A "post" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2022, 80000, 10000, black"
     Then A body of "{\"description\":\"New record created in a database\"}" is received
-    When A "put" request is made to "cars/admin" endpoint with a car being "Toyota, X5, 2020, 80000, 10000, black"
+    And A status code of 201 is received
+    When A "put" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2020, 80000, 10000, black"
     Then A body of "{\"description\":\"Cars updated\"}" is received
     And A status code of 200 is received
 
-
+  Scenario: A http delete request to endpoint deletes car item
+    When A "post" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2022, 80000, 10000, black"
+    Then A body of "{\"description\":\"New record created in a database\"}" is received
+    And A status code of 201 is received
+    Then A get request to find the car "TestBrand, TestModel, 2022, 80000, 10000, black" is made and a delete request is made to delete it
+    And A status code of 204 is received
 

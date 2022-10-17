@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface CarsRepository extends MongoRepository<Car, String> {
-
+    List<Car> findByModel(String model);
 
 
 }

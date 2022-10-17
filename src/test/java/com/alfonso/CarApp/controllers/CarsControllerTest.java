@@ -103,4 +103,10 @@ public class CarsControllerTest {
                 String.valueOf(testCar1.getYear()));
     }
 
+    @Test
+    void whenDeleteCalled_return204() {
+        response = carsController.delete("1");
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        verify(carsService, times(1)).deleteCar("1");
+    }
 }

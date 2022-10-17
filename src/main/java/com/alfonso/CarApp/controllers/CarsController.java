@@ -55,4 +55,16 @@ public class CarsController {
         responseObject.put("description", "Cars updated");
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/admin/{carId}")
+    public ResponseEntity<?> delete(@PathVariable String carId) {
+        carsService.deleteCar(carId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping(value = "admin/delete-test-data")
+    public ResponseEntity<?> deleteTestCars() {
+        carsService.deleteByTestModel();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
