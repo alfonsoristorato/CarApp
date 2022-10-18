@@ -3,7 +3,7 @@ Feature: Func Tests for cars/admin endpoint
     Given There are no test cars
 
   Scenario: http post request to endpoint
-    When A post request is made to "cars/admin" endpoint with a body of 1 car
+    When A "post" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2022, 80000, 10000, black"
     Then A body of "{\"description\":\"New record created in a database\"}" is received
     And A status code of 201 is received
 
@@ -32,6 +32,17 @@ Feature: Func Tests for cars/admin endpoint
     When A "put" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2020, 80000, 10000, black"
     Then A body of "{\"description\":\"Cars updated\"}" is received
     And A status code of 200 is received
+
+  Scenario: http put request to endpoint with incorrect fields returns error response
+    When A "post" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2022, 80000, 10000, black"
+    Then A body of "{\"description\":\"New record created in a database\"}" is received
+    And A status code of 201 is received
+    When A "put" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, NotAnYear, 80000, 10000, black"
+    Then A body of "{\"description\":\"Incorrect car data provided\"}" is received
+    And A status code of 400 is received
+    When A "put" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2000, NotAPrice, 10000, black"
+    Then A body of "{\"description\":\"Incorrect car data provided\"}" is received
+    And A status code of 400 is received
 
   Scenario: A http delete request to endpoint deletes car item
     When A "post" request is made to "cars/admin" endpoint with a car being "TestBrand, TestModel, 2022, 80000, 10000, black"

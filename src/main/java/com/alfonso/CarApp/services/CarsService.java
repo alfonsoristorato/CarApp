@@ -86,24 +86,29 @@ public class CarsService {
                                    String price,
                                    String year,
                                    Boolean update){
-        System.out.println(brand + " " + model + " " + colour );
-        if ( (!(brand+model+colour).matches("^[a-zA-Z0-9_\\-.]*$") || (brand+model+colour).contains(" ")) ||
+        if ( (!(brand+model).matches("^[a-zA-Z0-9_\\-.]*$") || (brand+model).contains(" ")) ||
+                (colour.startsWith(" ") || colour.endsWith(" "))||
                 (!year.matches("[0-9]{4}") && !year.equals("")) ||
                 (!mileage.matches("[0-9]*") && !mileage.equals("")) ||
                 (!price.matches("[0-9]*") && !price.equals(""))){
             if (!update) throw new IllegalArgumentException("Incorrect Format Values");
-            else throw new IllegalArgumentException("Illegal car parameters");
+            else {
+
+                throw new IllegalArgumentException("Illegal car parameters");
+            }
         }
     }
 
     public void updateCar(List<Car> cars) {
         for (Car car: cars){
+
             String brand = car.getBrand();
             String model = car.getModel();
 
             Query select = new Query();
             select.addCriteria(new Criteria().andOperator(Criteria.where("brand").is(brand), Criteria.where("model").is(model)));
             if (carsRepository.findByBrandAndModel(brand,model).isEmpty()){
+
                 throw new IllegalArgumentException("No car matches");
             }
 

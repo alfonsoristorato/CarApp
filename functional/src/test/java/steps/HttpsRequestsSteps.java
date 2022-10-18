@@ -63,37 +63,28 @@ public class HttpsRequestsSteps {
         Assert.assertEquals(code, response.getStatusCode());
     }
 
-    @When("A post request is made to {string} endpoint with a body of {int} car")
-
-    public void requestWithBody(String endpoint, Integer numberCars) {
-        List<Object> list = new ArrayList();
-        for (int i = 0; i < numberCars; i++) {
-            String s = Integer.toString(i);
-            Map<String, Object> bodyArray = new HashMap<>();
-            bodyArray.put("brand", "test_brand_"+s);
-            bodyArray.put("model", "test_model_"+s);
-            bodyArray.put("year", 2022);
-            bodyArray.put("price", 80000);
-            bodyArray.put("mileage", 10000);
-            bodyArray.put("colour", "lunar grey");
-            list.add(bodyArray);
+    private static Integer TryParseInt(String possibleInt) {
+        try {
+            return Integer.parseInt(possibleInt);
+        } catch (NumberFormatException ex) {
+            return null;
         }
-        Gson gson = new Gson();
-        String bodyJson = gson.toJson(list);
-        RequestSpecification request = given().body(bodyJson);
-        request.header("Content-Type", "application/json");
-        response = request.post(endpoint);
     }
 
     @When("A {string} request is made to {string} endpoint with a car being {string}")
     public void requestToWithBody(String requestType, String endpoint, String body){
         List<Object> bodyList = new ArrayList<>();
         Map<String, Object> bodyMap = new HashMap<>();
+
+        Integer year = TryParseInt(body.split(", ")[2]);
+        Integer price = TryParseInt(body.split(", ")[3]);
+        Integer mileage = TryParseInt(body.split(", ")[4]);
+
         bodyMap.put("brand", body.split(", ")[0]);
         bodyMap.put("model", body.split(", ")[1]);
-        bodyMap.put("year", Integer.parseInt(body.split(", ")[2]) );
-        bodyMap.put("price", Integer.parseInt(body.split(", ")[3]));
-        bodyMap.put("mileage", Integer.parseInt(body.split(", ")[4]));
+        bodyMap.put("year",  year == null ? body.split(", ")[2] : year);
+        bodyMap.put("price", price == null ? body.split(", ")[3] : price);
+        bodyMap.put("mileage", mileage == null ? body.split(", ")[4] : mileage);
         bodyMap.put("colour", body.split(", ")[5]);
         bodyList.add(bodyMap);
         Gson gson = new Gson();
