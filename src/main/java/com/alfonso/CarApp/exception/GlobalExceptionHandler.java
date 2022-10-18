@@ -53,10 +53,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity incorrectQueryParameterException(IllegalArgumentException illegalArgumentException) {
 
             Map<String, Object> body = new HashMap<>();
-            if (illegalArgumentException.getMessage() == "No car matches" || illegalArgumentException.getMessage() == "No id provided") {
+            if (illegalArgumentException.getMessage() == "No car matches"
+                    || illegalArgumentException.getMessage() == "No id provided"
+                    || illegalArgumentException.getMessage() == "Illegal car parameters") {
                 body.put("description", "Incorrect car data provided");
-            } else {
+            } else if (illegalArgumentException.getMessage() == "Incorrect Format Values") {
                 body.put("description", "Incorrect query parameter provided");
+            } else {
+                body.put("description", "Generic IllegalArgumentException");
+
             }
 
 

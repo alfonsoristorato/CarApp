@@ -44,7 +44,8 @@ public class CarsService {
                 colour,
                 mileage,
                 price,
-                year);
+                year,
+                false);
         Query dynamicQuery = new Query();
         if (!brand.equals("")) {
             Criteria nameCriteria = Criteria.where("brand").is(brand);
@@ -83,38 +84,43 @@ public class CarsService {
                                    String colour,
                                    String mileage,
                                    String price,
-                                   String year){
+                                   String year,
+                                   Boolean update){
         System.out.println(brand + " " + model + " " + colour );
         if ( (!(brand+model+colour).matches("^[a-zA-Z0-9_\\-.]*$") || (brand+model+colour).contains(" ")) ||
                 (!year.matches("[0-9]{4}") && !year.equals("")) ||
                 (!mileage.matches("[0-9]*") && !mileage.equals("")) ||
                 (!price.matches("[0-9]*") && !price.equals(""))){
-            throw new IllegalArgumentException();
+            if (!update) throw new IllegalArgumentException("Incorrect Format Values");
+            else throw new IllegalArgumentException("Illegal car parameters");
         }
-
     }
 
-    public void updateCar(
-                          String brand,
-                          String model,
-                          String colour,
-                          String mileage,
-                          String price,
-                          String year) {
-        Query select = new Query();
-        select.addCriteria(new Criteria().andOperator(Criteria.where("brand").is(brand), Criteria.where("model").is(model)));
-        verifyFieldsFormat(brand,
-                model,
-                colour,
-                mileage,
-                price,
-                year);
-        Update update = new Update();
-        if (!colour.equals("")) update.set("colour", colour);
-        if (!mileage.equals("")) update.set("mileage", mileage);
-        if (!price.equals("")) update.set("price", price);
-        if (!year.equals("")) update.set("year", year);
-        mongoTemplate.findAndModify(select, update, Car.class);
+    public void updateCar(List<Car> cars) {
+        for (Car car: cars){
+            String brand = car.getBrand();
+            String model = car.getModel();
+
+            Query select = new Query();
+            select.addCriteria(new Criteria().andOperator(Criteria.where("brand").is(brand), Criteria.where("model").is(model)));
+            if (carsRepository.findByBrandAndModel(brand,model).isEmpty()){
+                throw new IllegalArgumentException("No car matches");
+            }
+
+            String colour =  car.getColour();
+            String mileage = String.valueOf(car.getMileage());
+            String price = String.valueOf(car.getPrice());
+            String year = String.valueOf(car.getYear());
+            verifyFieldsFormat(brand, model, colour, mileage, price, year, true);
+
+            Update update = new Update();
+            if (!colour.equals("")) update.set("colour", colour);
+            if (!mileage.equals("")) update.set("mileage", mileage);
+            if (!price.equals("")) update.set("price", price);
+            if (!year.equals("")) update.set("year", year);
+            mongoTemplate.findAndModify(select, update, Car.class);
+        }
+
     }
 
 

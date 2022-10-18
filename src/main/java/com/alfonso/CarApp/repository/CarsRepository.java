@@ -14,5 +14,7 @@ import java.util.List;
 public interface CarsRepository extends MongoRepository<Car, String> {
     List<Car> findByModel(String model);
 
+    List<Car> findByBrandAndModel(String brand, String model);
+
 
 }
