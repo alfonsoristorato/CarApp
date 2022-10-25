@@ -1,14 +1,16 @@
-FROM gradle:7-jdk-alpine as BUILDER
-ARG VERSION=0.0.1-SNAPSHOT
-WORKDIR /build/
-COPY build.gradle /build/
-COPY src /build/src/
-
-RUN gradle build
-COPY build/libs/CarApp-${VERSION}.jar target/application.jar
+FROM gradle:7-jdk-alpine as build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
 
 FROM openjdk:17-jdk-slim
-WORKDIR /app/
 
-COPY --from=BUILDER /build/target/application.jar /app/
-CMD java -jar /app/application.jar
+EXPOSE 8080
+
+RUN mkdir /app
+
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+
+
+
+CMD java -jar /app/spring-boot-application.jar
